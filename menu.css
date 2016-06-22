@@ -1,9 +1,15 @@
 .menu {
-	margin: 4px;
+	margin: 6px;
 	font-weight: bold;
 }
 
 .dept {
 	font-weight: normal;
+	color: brown;
+}
+
+.price {
+	font-weight: normal;
+	color: green;
 	
 }
