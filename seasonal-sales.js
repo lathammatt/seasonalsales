@@ -36,10 +36,15 @@ function applyDom (object, obj2){
 		document.getElementById("output").appendChild(mainMenu);
 		mainMenu.appendChild(document.createTextNode(firstPart.name));
 		var dept = document.createElement("div");
+		dept.className = "dept";
 		mainMenu.appendChild(dept);
 		if (firstPart.category_id === 1){
-			dept.appendChild(document.createTextNode(adjustments.categories[0].name))
-		}
+			dept.appendChild(document.createTextNode("Department: " + adjustments.categories[0].name));
+		} else if (firstPart.category_id === 2){
+			dept.appendChild(document.createTextNode("Department: " + adjustments.categories[1].name));
+		} else {
+			dept.appendChild(document.createTextNode("Department: " + adjustments.categories[2].name))
+		};
 	console.log("reaching", object);
 	};
 
