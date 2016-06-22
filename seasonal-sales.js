@@ -7,7 +7,7 @@ var prods = new XMLHttpRequest();
 var sales = new XMLHttpRequest();
 
 prods.addEventListener("load", loadedFile);
-sales.addEventListener("load", loaded2File);
+sales.addEventListener("load", loadedFile);
 
 prods.open("GET", "products.json");
 prods.send();
@@ -15,23 +15,22 @@ sales.open("GET", "categories.json");
 sales.send();
 
 var mainlist = 0;
-var adjustments = 0;
+var adjustments;
 function loadedFile(){
 	mainlist = JSON.parse(prods.responseText);
-	applyDom(mainlist);
-	console.log("test", mainlist);
-};
-
-function loaded2File(){
 	adjustments = JSON.parse(sales.responseText);
-	console.log("adj", adjustments);
+	applyDom(mainlist, adjustments);
+	console.log("test", mainlist);
+	console.log("adjust", adjustments);
 };
 
 
 
-function applyDom (object){
+function applyDom (object, obj2){
 	for (var i = 0; i < object.products.length; i++) {
 		var firstPart = mainlist.products[i];
+		var change = adjustments.categories
+		console.log("change", adjustments);
 		var mainMenu = document.createElement("div");
 		mainMenu.className = "menu";
 		document.getElementById("output").appendChild(mainMenu);
@@ -39,7 +38,7 @@ function applyDom (object){
 		var dept = document.createElement("div");
 		mainMenu.appendChild(dept);
 		if (firstPart.category_id === 1){
-			
+			dept.appendChild(document.createTextNode(adjustments.categories[0].name))
 		}
 	console.log("reaching", object);
 	};
