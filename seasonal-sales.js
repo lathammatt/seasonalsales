@@ -43,19 +43,27 @@ function applyDom (object, obj2){
 		};
 		var price = document.createElement("div");
 		price.className = "price";
+		price.setAttribute("class2", `${mainlist.products[i].category_id}`);
 		dept.appendChild(price);
 		price.appendChild(document.createTextNode(firstPart.price));
-		// season.addEventListener("change", function(event){
-		// 	if (season.value === "winter" && firstpart.category_id === 1){
-		// 		price.appendChild(document.createTextNode(change[0].discount * firstpart.price));
-		// 	}
-		// });
-
-
+		var winter = document.createElement("div");
+		winter.className = "winter hidden";
+		var round = firstPart.price - (firstPart.price * change[0].discount);
+		dept.appendChild(winter);
+		winter.appendChild(document.createTextNode(round.toFixed(2)));
 	console.log("reaching", object);
 	};
 
 };
+
+
+
+season.addEventListener("change", function(event){
+	if (season.value === "winter" && div.price.class2.value === 1){
+		price.addClassName("hidden");
+		winter.toggleClass("hidden");
+	}
+});
 
 // for category-id of blank, display category
 // if index.value === 1

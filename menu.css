@@ -11,5 +11,12 @@
 .price {
 	font-weight: normal;
 	color: green;
-	
+}
+
+.winter {
+	color: aqua;
+}
+
+.hidden {
+	display:none;
 }
