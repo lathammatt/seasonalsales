@@ -1,7 +1,5 @@
 "use strict";
-// pull from json files
-// prodcuts, department, price
-//
+
 var season = document.getElementById("seasons");
 var prods = new XMLHttpRequest();
 var sales = new XMLHttpRequest();
@@ -24,8 +22,6 @@ function loadedFile(){
 	console.log("adjust", adjustments);
 };
 
-
-
 function applyDom (object, obj2){
 	for (var i = 0; i < object.products.length; i++) {
 		var firstPart = mainlist.products[i];
@@ -39,16 +35,35 @@ function applyDom (object, obj2){
 		dept.className = "dept";
 		mainMenu.appendChild(dept);
 		if (firstPart.category_id === 1){
-			dept.appendChild(document.createTextNode("Department: " + adjustments.categories[0].name));
+			dept.appendChild(document.createTextNode("Department: " + change[0].name));
 		} else if (firstPart.category_id === 2){
-			dept.appendChild(document.createTextNode("Department: " + adjustments.categories[1].name));
+			dept.appendChild(document.createTextNode("Department: " + change[1].name));
 		} else {
-			dept.appendChild(document.createTextNode("Department: " + adjustments.categories[2].name))
+			dept.appendChild(document.createTextNode("Department: " + change[2].name))
 		};
+		var price = document.createElement("div");
+		price.className = "price";
+		price.setAttribute("class2", `${mainlist.products[i].category_id}`);
+		dept.appendChild(price);
+		price.appendChild(document.createTextNode(firstPart.price));
+		var winter = document.createElement("div");
+		winter.className = "winter hidden";
+		var round = firstPart.price - (firstPart.price * change[0].discount);
+		dept.appendChild(winter);
+		winter.appendChild(document.createTextNode(round.toFixed(2)));
 	console.log("reaching", object);
 	};
 
 };
+
+
+
+season.addEventListener("change", function(event){
+	if (season.value === "winter" && div.price.class2.value === 1){
+		price.addClassName("hidden");
+		winter.toggleClass("hidden");
+	}
+});
 
 // for category-id of blank, display category
 // if index.value === 1
