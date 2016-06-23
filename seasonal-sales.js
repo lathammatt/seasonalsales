@@ -43,7 +43,7 @@ function applyDom (object, obj2){
 		};
 		var price = document.createElement("div");
 		price.className = "price";
-		price.setAttribute("class2", `${mainlist.products[i].category_id}`);
+		price.classList.add(`${mainlist.products[i].category_id}`);
 		dept.appendChild(price);
 		price.appendChild(document.createTextNode(firstPart.price));
 		var winter = document.createElement("div");
@@ -56,13 +56,20 @@ function applyDom (object, obj2){
 
 };
 
+var winter = document.getElementsByClassName("1");
+var autumn = document.getElementsByClassName("2");
+var spring = document.getElementsByClassName("3");
+var winteron = document.getElementsByClassName("winter");
+var autumnon = document.getElementsByClassName("autumn");
+var springon = document.getElementsByClassName("spring");
+
 
 
 season.addEventListener("change", function(event){
-	if (season.value === "winter" && div.price.class2.value === 1){
-		price.addClassName("hidden");
-		winter.toggleClass("hidden");
-	}
+	if (season.value === "winter"){
+		winter.classList.toggle("hidden");
+		winteron.classList.toggle("hidden");
+	};
 });
 
 // for category-id of blank, display category
