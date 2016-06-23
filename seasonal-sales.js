@@ -18,40 +18,41 @@ function loadedFile(){
 	mainlist = JSON.parse(prods.responseText);
 	adjustments = JSON.parse(sales.responseText);
 	applyDom(mainlist, adjustments);
-	console.log("test", mainlist);
-	console.log("adjust", adjustments);
+	// console.log("test", mainlist);
+	// console.log("adjust", adjustments);
 };
 
-function applyDom (object, obj2){
-	for (var i = 0; i < object.products.length; i++) {
-		var firstPart = mainlist.products[i];
+function applyDom (thing, obj2){
+	console.log("IS IT BUILDLING", thing);
+	for (var i = 0; i < thing.products.length; i++) {
+		// var firstPart = mainlist.products[i];
 		var change = adjustments.categories
-		console.log("change", adjustments);
+		// console.log("change", adjustments);
 		var mainMenu = document.createElement("div");
 		mainMenu.className = "menu";
 		document.getElementById("output").appendChild(mainMenu);
-		mainMenu.appendChild(document.createTextNode(firstPart.name));
+		mainMenu.appendChild(document.createTextNode(thing.products[i].name));
 		var dept = document.createElement("div");
 		dept.className = "dept";
 		mainMenu.appendChild(dept);
-		if (firstPart.category_id === 1){
+		if (thing.products[i].category_id === 1){
 			dept.appendChild(document.createTextNode("Department: " + change[0].name));
-		} else if (firstPart.category_id === 2){
+		} else if (thing.products[i].category_id === 2){
 			dept.appendChild(document.createTextNode("Department: " + change[1].name));
 		} else {
 			dept.appendChild(document.createTextNode("Department: " + change[2].name))
 		};
 		var price = document.createElement("div");
 		price.className = "price";
-		price.classList.add(`${mainlist.products[i].category_id}`);
+		price.classList.add(`${thing.products[i].category_id}`);
 		dept.appendChild(price);
-		price.appendChild(document.createTextNode(firstPart.price));
-		var winter = document.createElement("div");
-		winter.className = "winter hidden";
-		var round = firstPart.price - (firstPart.price * change[0].discount);
-		dept.appendChild(winter);
-		winter.appendChild(document.createTextNode(round.toFixed(2)));
-	console.log("reaching", object);
+		price.appendChild(document.createTextNode(thing.products[i].price));
+		// var winter = document.createElement("div");
+		// winter.className = "winter hidden";
+		// var round = firstPart.price - (firstPart.price * change[0].discount);
+		// dept.appendChild(winter);
+		// winter.appendChild(document.createTextNode(round.toFixed(2)));
+	// console.log("reaching", object);
 	};
 
 };
@@ -64,11 +65,30 @@ var autumnon = document.getElementsByClassName("autumn");
 var springon = document.getElementsByClassName("spring");
 
 
+function doDiscount(whichSeason, object, adjustments) {
+	var main = document.getElementById("output");
+	var newPrices = (JSON.parse(JSON.stringify(object)));
+	main.innerHTML = '';
+	if (whichSeason === "winter"){
+		for (var i = 0; i < object.products.length; i++){
+			if (object.products[i].category_id === 1){
+				var round = object.products[i].price - (object.products[i].price * adjustments.categories[0].discount);
+				console.log("??????", object.products[i].price, "?==", round)
+				newPrices.products[i].price = round;
+				console.log(":(", newPrices.products[i].price)
+
+			}
+		}
+	}
+	applyDom(newPrices, adjustments)
+}
 
 season.addEventListener("change", function(event){
+	// var debt = document.getElementsByClassName("debt")
+
 	if (season.value === "winter"){
-		winter.classList.toggle("hidden");
-		winteron.classList.toggle("hidden");
+		doDiscount("winter", mainlist, adjustments)
+	
 	};
 });
 
