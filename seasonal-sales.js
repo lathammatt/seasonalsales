@@ -18,16 +18,11 @@ function loadedFile(){
 	mainlist = JSON.parse(prods.responseText);
 	adjustments = JSON.parse(sales.responseText);
 	applyDom(mainlist, adjustments);
-	// console.log("test", mainlist);
-	// console.log("adjust", adjustments);
 };
 
 function applyDom (thing, obj2){
-	console.log("IS IT BUILDLING", thing);
 	for (var i = 0; i < thing.products.length; i++) {
-		// var firstPart = mainlist.products[i];
 		var change = adjustments.categories
-		// console.log("change", adjustments);
 		var mainMenu = document.createElement("div");
 		mainMenu.className = "menu";
 		document.getElementById("output").appendChild(mainMenu);
@@ -46,53 +41,56 @@ function applyDom (thing, obj2){
 		price.className = "price";
 		price.classList.add(`${thing.products[i].category_id}`);
 		dept.appendChild(price);
-		price.appendChild(document.createTextNode(thing.products[i].price));
-		// var winter = document.createElement("div");
-		// winter.className = "winter hidden";
-		// var round = firstPart.price - (firstPart.price * change[0].discount);
-		// dept.appendChild(winter);
-		// winter.appendChild(document.createTextNode(round.toFixed(2)));
-	// console.log("reaching", object);
+		price.appendChild(document.createTextNode((thing.products[i].price).toFixed(2)));
 	};
-
 };
-
-var winter = document.getElementsByClassName("1");
-var autumn = document.getElementsByClassName("2");
-var spring = document.getElementsByClassName("3");
-var winteron = document.getElementsByClassName("winter");
-var autumnon = document.getElementsByClassName("autumn");
-var springon = document.getElementsByClassName("spring");
 
 
 function doDiscount(whichSeason, object, adjustments) {
 	var main = document.getElementById("output");
+	// because doing "var newPrices = object" still causes memory to refer to original memory to refer to object each time, we must take the original object make it into a string and then make it into a whole new object with no references to the previous here:
 	var newPrices = (JSON.parse(JSON.stringify(object)));
 	main.innerHTML = '';
 	if (whichSeason === "winter"){
 		for (var i = 0; i < object.products.length; i++){
 			if (object.products[i].category_id === 1){
 				var round = object.products[i].price - (object.products[i].price * adjustments.categories[0].discount);
-				console.log("??????", object.products[i].price, "?==", round)
 				newPrices.products[i].price = round;
-				console.log(":(", newPrices.products[i].price)
 
-			}
-		}
-	}
+			};
+		};
+	} else if (whichSeason === "autumn"){
+		for (var i = 0; i < object.products.length; i++){
+			if (object.products[i].category_id === 2){
+				var round = object.products[i].price - (object.products[i].price * adjustments.categories[1].discount);
+				newPrices.products[i].price = round;
+
+			};
+		};
+	} else if (whichSeason === "spring"){
+		for (var i = 0; i < object.products.length; i++){
+			if (object.products[i].category_id === 3){
+				var round = object.products[i].price - (object.products[i].price * adjustments.categories[2].discount);
+				newPrices.products[i].price = round;
+			};
+		};
+	};
 	applyDom(newPrices, adjustments)
-}
+};
 
 season.addEventListener("change", function(event){
-	// var debt = document.getElementsByClassName("debt")
-
 	if (season.value === "winter"){
 		doDiscount("winter", mainlist, adjustments)
-	
-	};
+	} 
+	else if (season.value === "autumn"){
+		doDiscount("autumn", mainlist, adjustments)
+	} 
+	else if (season.value === "spring"){
+		doDiscount("spring", mainlist, adjustments)
+	} 
+	else {
+		var main = document.getElementById("output");
+		main.innerHTML = '';
+		applyDom(mainlist, adjustments)};
 });
 
-// for category-id of blank, display category
-// if index.value === 1
-// if select is blank, then all products in blank should be reduced by blank
-// 
